@@ -3,17 +3,21 @@ package application;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class NumberPanel extends GridPane{
 	
 	private Model aModel;
+	private Stage primaryStage;
 	private final int Spacing = 2;
 	private final double MINHEIGHT = 400;
 	private final double MINWIDTH = 200;
@@ -30,9 +34,10 @@ public class NumberPanel extends GridPane{
 									"ln","+/-","0",".","="};
 	
 	
-	public NumberPanel(Model pModel) {
+	public NumberPanel(Model pModel, Stage stage) {
 		super();
 		aModel = pModel;
+		this.primaryStage = stage;
 		setLayout();
 		setButtons();
 		
@@ -47,14 +52,33 @@ public class NumberPanel extends GridPane{
 	}
 	
 	private void setButtons() {
-		List<Button> temp = new ArrayList<>();
+		
 		for (int i = 0;i<Symbols.length;i++) {
 			Button button;
 			
 			switch(Symbols[i]) {
 				case "Tri":
 					button = new Button("Tri");
-					//TODO
+					EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+						
+					    public void handle(ActionEvent e)
+					    {
+					    	Popup trigo_popup = new Popup();
+							Label label = new Label("This is a Popup");
+							StackPane popupLayout = new StackPane();
+							popupLayout.setStyle("-fx-background-color: lightgray;");
+					        popupLayout.getChildren().addAll(label);
+					        trigo_popup.getContent().add(popupLayout);
+					        trigo_popup.setAutoHide(true);
+					        double sceneX = button.localToScene(button.getBoundsInLocal()).getWidth();
+				            double sceneY = button.localToScene(button.getBoundsInLocal()).getHeight();
+				            System.out.println(sceneX);
+				            System.out.println(sceneY);
+					        trigo_popup.show(NumberPanel.this,sceneX,sceneY);
+							
+					    }
+					};
+					button.setOnAction(event);
 					break;
 				case "RAD":
 					button = new Button("RAD");

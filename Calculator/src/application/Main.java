@@ -17,7 +17,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			VBox root = creatPane();
+			VBox root = creatPane(primaryStage);
 			Scene scene = new Scene(root,WIDTH,HEIGHT);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -31,11 +31,11 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private VBox creatPane() {
+	private VBox creatPane(Stage primaryStage) {
 		VBox root = new VBox(MARGIN);
 		Model model = new ScreenPanel();
 		root.getChildren().add((Node) model);
-		root.getChildren().add(new NumberPanel(model));
+		root.getChildren().add(new NumberPanel(model,primaryStage));
 		return root;
 	}
 }
